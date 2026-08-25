@@ -9,3 +9,413 @@
 
 
 -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crimson Coalition — История сервера</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Press Start 2P', monospace;
+            color: #e0e0e0;
+            min-height: 100vh;
+            background: #1a1a1a url('background.png') no-repeat center center fixed;
+            background-size: cover;
+            image-rendering: pixelated;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.55);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .wrapper {
+            position: relative;
+            z-index: 1;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* ===== НАВИГАЦИЯ ===== */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: rgba(20, 20, 20, 0.85);
+            border: 2px solid #444;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .nav-back {
+            font-size: 10px;
+            color: #d400ff;
+            text-decoration: none;
+            padding: 8px 14px;
+            border: 2px solid #9d00ff;
+            border-radius: 4px;
+            transition: all 0.2s;
+            text-shadow: 1px 1px 0 #000;
+        }
+
+        .nav-back:hover {
+            background: rgba(157, 0, 255, 0.2);
+            color: #ff00ff;
+            transform: translateY(-1px);
+        }
+
+        .nav-title {
+            font-size: 11px;
+            color: #ff00ff;
+            text-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* ===== ЛОГО ===== */
+        .logo-container {
+            width: 100%;
+            text-align: center;
+            margin: 20px 0 30px 0;
+        }
+
+        .logo-container img {
+            width: 100%;
+            max-width: 900px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            image-rendering: pixelated;
+            filter: drop-shadow(0 0 15px rgba(157, 0, 255, 0.6));
+        }
+
+        /* ===== БЛОКИ ===== */
+        .content-block {
+            background: rgba(20, 20, 20, 0.78);
+            border: 3px solid #444;
+            border-radius: 6px;
+            padding: 25px 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8), inset 0 0 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .content-block::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #9d00ff, #ff00ff, #9d00ff);
+            border-radius: 6px 6px 0 0;
+        }
+
+        .block-title {
+            font-size: 14px;
+            color: #d400ff;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 0 #000, 0 0 10px rgba(212, 0, 255, 0.5);
+            letter-spacing: 2px;
+            padding-bottom: 10px;
+            border-bottom: 2px dashed #555;
+        }
+
+        .block-subtitle {
+            font-size: 11px;
+            color: #ff00ff;
+            margin: 20px 0 12px 0;
+            text-shadow: 1px 1px 0 #000;
+        }
+
+        .block-text {
+            font-size: 10px;
+            line-height: 2;
+            color: #d0d0d0;
+            margin-bottom: 12px;
+        }
+
+        .block-text strong {
+            color: #ff00ff;
+        }
+
+        /* ===== хроно ===== */
+        .timeline {
+            position: relative;
+            padding: 10px 0 10px 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, #9d00ff, #ff00ff, #9d00ff);
+            box-shadow: 0 0 8px rgba(255, 0, 255, 0.5);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 22px;
+            padding-left: 15px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -26px;
+            top: 6px;
+            width: 14px;
+            height: 14px;
+            background: #ff00ff;
+            border: 3px solid #1a1a1a;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255, 0, 255, 0.8);
+            z-index: 2;
+        }
+
+        .timeline-item.important::before {
+            background: #ff3333;
+            box-shadow: 0 0 12px rgba(255, 51, 51, 0.9);
+            width: 16px;
+            height: 16px;
+            left: -27px;
+            top: 5px;
+        }
+
+        .timeline-date {
+            font-size: 9px;
+            color: #ff00ff;
+            margin-bottom: 6px;
+            text-shadow: 1px 1px 0 #000;
+        }
+
+        .timeline-event {
+            font-size: 10px;
+            color: #e0e0e0;
+            line-height: 1.8;
+        }
+
+        .timeline-event .tag {
+            display: inline-block;
+            font-size: 7px;
+            padding: 2px 6px;
+            border-radius: 3px;
+            margin-left: 6px;
+            vertical-align: middle;
+            text-transform: uppercase;
+        }
+
+        .tag-start { background: #00aa44; color: #fff; }
+        .tag-wipe { background: #ff6600; color: #fff; }
+        .tag-update { background: #0066ff; color: #fff; }
+        .tag-event { background: #9d00ff; color: #fff; }
+        .tag-crisis { background: #ff0033; color: #fff; }
+        .tag-record { background: #ffaa00; color: #000; }
+
+        /* ===== стата ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-card {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid #9d00ff;
+            border-radius: 4px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(157, 0, 255, 0.3);
+        }
+
+        .stat-value {
+            font-size: 18px;
+            color: #ff00ff;
+            text-shadow: 0 0 10px rgba(255, 0, 255, 0.6);
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .stat-label {
+            font-size: 7px;
+            color: #aaa;
+            text-transform: uppercase;
+        }
+
+        /* ===== цитатьоне ===== */
+        .quote {
+            background: rgba(157, 0, 255, 0.1);
+            border-left: 4px solid #9d00ff;
+            padding: 12px 15px;
+            margin: 15px 0;
+            font-size: 9px;
+            line-height: 1.9;
+            color: #d0d0d0;
+            font-style: italic;
+        }
+
+        .quote-author {
+            display: block;
+            margin-top: 8px;
+            font-size: 8px;
+            color: #ff00ff;
+            font-style: normal;
+        }
+
+        /* ===== подвал ===== */
+        .footer {
+            text-align: center;
+            font-size: 8px;
+            color: #666;
+            margin-top: 40px;
+            padding: 15px;
+        }
+
+        @media (max-width: 700px) {
+            .block-title { font-size: 12px; }
+            .block-text { font-size: 9px; }
+            .timeline { padding-left: 25px; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+
+        <!-- навигацьоне -->
+        <div class="top-nav">
+            <a href="index.html" class="nav-back">← На главную</a>
+            <div class="nav-title">История сервера</div>
+            <div style="width: 120px;"></div> <!-- для баланса -->
+        </div>
+
+        <!-- логотайп -->
+        <div class="logo-container">
+            <img src="logo.png" alt="mc.crimson-coalition.ru">
+        </div>
+
+        <!-- хронолоджи -->
+        <div class="content-block">
+            <div class="block-title">⏳ Хронология ключевых событий</div>
+
+            <div class="timeline">
+
+                <div class="timeline-item important">
+                    <div class="timeline-date">16 июля 2026</div>
+                    <div class="timeline-event">
+                        Основание сервера. Первый запуск на версии 1.21.11.
+                        <span class="tag tag-start">Старт</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-date">11 августа 2026</div>
+                    <div class="timeline-event">
+                        Гриф деревни Fiks_kotikofiks, игроками pizdahusar и FixEye_404, последующий лив с сервера. Строительство мемориала в честь него.
+                    </div>
+                </div>
+
+                <div class="timeline-item important">
+                    <div class="timeline-date">15-24 августа 2026</div>
+                    <div class="timeline-event">
+                        Строительство базы "город" игроками x_Tihhaa_x, LORD2ARTUR, knopochka, geiond, zzz_MELKIY_zzz и прочими
+                        и последующее предательство LORD2ARTUR и его тиммейтов.
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-date">23 августа 2026</div>
+                    <div class="timeline-event">
+                        Рекорд онлайна 16 человек. На сервер зашел iii_top4ik_iii (SIgmawarrior) с подписчиками и рандомами. 
+                        <span class="tag tag-record">Рекорд</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item important">
+                    <div class="timeline-date">25 августа 2026</div>
+                    <div class="timeline-event">
+                        Текущий момент. Сервер жив. Анархия продолжается.
+                        <span class="tag tag-start">Сейчас</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- стата -->
+        <div class="content-block">
+            <div class="block-title">📊 Сервер в цифрах</div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-value">40</span>
+                    <span class="stat-label">Дней работы</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value">3</span>
+                    <span class="stat-label">Сезона</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value">16</span>
+                    <span class="stat-label">Рекорд онлайна</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value">174</span>
+                    <span class="stat-label">Уникальных игрока</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- лор -->
+        <div class="content-block">
+            <div class="block-title"> Подробная история</div>
+
+            <div class="block-subtitle"> Рождение сервера.</div>
+            <div class="block-text">
+                Сервер <strong>Crimson Coalition</strong> был создан 16 июля 2024 года группой энтузиастов, уставших от правил, приватов и «дружелюбных комьюнити», выросших с сервера Evil Place с очень простой идеологией: <strong>ванильный сервер без единого правила</strong>. Никаких банов, никаких модераторов, никаких «не гриферьте».
+            </div>
+        </div>
+
+        <!-- legens never dieeeeee -->
+        <div class="content-block">
+            <div class="block-title">Легенды сервера</div>
+
+            <div class="block-subtitle">FixEye_404</div>
+            <div class="block-text">
+                Первый грифер сервера. Уничтожил базу Fix_kotikofiks.
+            </div>
+
+            <div class="block-subtitle">Fiks_kotikofiks</div>
+            <div class="block-text">
+                Главный альтруист сервера, покинувший его и так не вернувшийся после потери базы. 
+            </div>
+
+            <div class="block-subtitle">Mr. Omlette</div>
+            <div class="block-text">
+                Меценат сервера. Поддерживает его существование рублем. Альтруист #2
+            </div>
+
+        <!-- подвал -->
+        <div class="footer">
+            © 2026 Crimson Coalition.<br>
+            <a href="index.html" style="color: #9d00ff; text-decoration: none;">← Вернуться на главную</a>
+        </div>
+
+    </div>
+</body>
+</html>
