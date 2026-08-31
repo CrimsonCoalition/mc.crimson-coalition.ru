@@ -17,282 +17,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crimson Coalition — Ванильный сервер без правил</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Press Start 2P', monospace;
-            color: #e0e0e0;
-            min-height: 100vh;
-            background: #1a1a1a url('background.png') no-repeat center center fixed;
-            background-size: cover;
-            image-rendering: pixelated;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.45);
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        .wrapper {
-            position: relative;
-            z-index: 1;
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .logo-container {
-            width: 100%;
-            text-align: center;
-            margin: 30px 0 40px 0;
-        }
-
-        .logo-container img {
-            width: 100%;
-            max-width: 900px;
-            height: auto;
-            display: block;
-            margin: 0 auto;
-            image-rendering: pixelated;
-            filter: drop-shadow(0 0 15px rgba(157, 0, 255, 0.6));
-        }
-
-        .news-block {
-            background: rgba(20, 20, 20, 0.75);
-            border: 3px solid #444;
-            border-radius: 6px;
-            padding: 25px 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8), inset 0 0 30px rgba(0, 0, 0, 0.5);
-            position: relative;
-        }
-
-        .news-block::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #9d00ff, #ff00ff, #9d00ff);
-            border-radius: 6px 6px 0 0;
-        }
-
-        .news-title {
-            font-size: 16px;
-            color: #d400ff;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 0 #000, 0 0 10px rgba(212, 0, 255, 0.5);
-            letter-spacing: 2px;
-        }
-
-        .news-item {
-            border-bottom: 1px dashed #555;
-            padding: 15px 0;
-        }
-        .news-item:last-child { border-bottom: none; }
-
-        .news-date { font-size: 9px; color: #ff00ff; margin-bottom: 8px; }
-        .news-text { font-size: 10px; line-height: 1.8; color: #d0d0d0; }
-
-        .widgets-row {
-            display: flex;
-            gap: 25px;
-            flex-wrap: wrap;
-        }
-
-        .widget {
-            flex: 1;
-            min-width: 280px;
-            background: rgba(20, 20, 20, 0.75);
-            border: 3px solid #444;
-            border-radius: 6px;
-            padding: 20px 25px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8), inset 0 0 30px rgba(0, 0, 0, 0.5);
-            position: relative;
-        }
-
-        .widget::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #9d00ff, #ff00ff, #9d00ff);
-            border-radius: 6px 6px 0 0;
-        }
-
-        .widget-title {
-            font-size: 12px;
-            color: #d400ff;
-            text-transform: uppercase;
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 0 #000, 0 0 10px rgba(212, 0, 255, 0.5);
-        }
-
-        .server-status { font-size: 10px; line-height: 2.2; }
-
-        .status-line {
-            display: flex;
-            justify-content: space-between;
-            border-bottom: 1px dashed #444;
-            padding: 5px 0;
-            align-items: center;
-        }
-        .status-line:last-child { border-bottom: none; }
-
-        .status-label { color: #aaa; }
-        .status-value { color: #00ff55; }
-        .status-value.offline { color: #ff3333; }
-        .status-value.error { color: #ff8800; }
-
-        .online-dot {
-            display: inline-block;
-            width: 8px; height: 8px;
-            background: #00ff55;
-            border-radius: 50%;
-            margin-right: 6px;
-            box-shadow: 0 0 6px #00ff55;
-            animation: pulse 1.5s infinite;
-        }
-
-        .offline-dot {
-            display: inline-block;
-            width: 8px; height: 8px;
-            background: #ff3333;
-            border-radius: 50%;
-            margin-right: 6px;
-            box-shadow: 0 0 6px #ff3333;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
-        }
-
-        .player-count {
-            color: #ff00ff;
-            text-shadow: 0 0 8px rgba(255, 0, 255, 0.6);
-            font-weight: bold;
-        }
-
-        .ip-value {
-            font-size: 8px;
-            color: #d400ff;
-            word-break: break-all;
-            text-align: right;
-        }
-
-        .error-detail {
-            font-size: 7px;
-            color: #ff8800;
-            margin-top: 8px;
-            padding: 6px;
-            background: rgba(255, 136, 0, 0.1);
-            border: 1px dashed #ff8800;
-            border-radius: 3px;
-            word-break: break-all;
-            display: none;
-        }
-        .error-detail.visible { display: block; }
-
-        .donate-list { list-style: none; font-size: 10px; line-height: 2.2; }
-        .donate-list li {
-            border-bottom: 1px dashed #444;
-            padding: 5px 0;
-            display: flex;
-            justify-content: space-between;
-        }
-        .donate-list li:last-child { border-bottom: none; }
-
-        .donate-name { color: #d0d0d0; }
-        .donate-amount {
-            color: #ff00ff;
-            text-shadow: 0 0 5px rgba(255, 0, 255, 0.4);
-        }
-
-        .donate-btn {
-            display: block;
-            width: 100%;
-            margin-top: 15px;
-            padding: 12px;
-            background: linear-gradient(180deg, #9d00ff, #6600cc);
-            border: 2px solid #cc00ff;
-            border-radius: 4px;
-            color: #fff;
-            font-family: 'Press Start 2P', monospace;
-            font-size: 10px;
-            text-align: center;
-            cursor: pointer;
-            text-transform: uppercase;
-            text-shadow: 1px 1px 0 #000;
-            box-shadow: 0 4px 0 #440088;
-            transition: all 0.1s;
-        }
-        .donate-btn:hover {
-            background: linear-gradient(180deg, #aa00ff, #7700dd);
-            transform: translateY(-1px);
-        }
-        .donate-btn:active {
-            transform: translateY(3px);
-            box-shadow: 0 1px 0 #440088;
-        }
-
-        .footer {
-            text-align: center;
-            font-size: 8px;
-            color: #666;
-            margin-top: 40px;
-            padding: 15px;
-        }
-
-        .update-indicator {
-            font-size: 7px;
-            color: #666;
-            text-align: center;
-            margin-top: 10px;
-        }
-        .update-indicator.updating {
-            color: #ff00ff;
-            animation: blink 0.5s infinite;
-        }
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-
-        .copy-ip-btn {
-            font-size: 7px;
-            background: transparent;
-            border: 1px solid #9d00ff;
-            color: #d400ff;
-            padding: 4px 8px;
-            border-radius: 3px;
-            cursor: pointer;
-            font-family: 'Press Start 2P', monospace;
-            margin-left: 8px;
-            transition: all 0.2s;
-        }
-        .copy-ip-btn:hover {
-            background: rgba(157, 0, 255, 0.2);
-            color: #ff00ff;
-        }
-        .copy-ip-btn.copied {
-            color: #00ff55;
-            border-color: #00ff55;
-        }
-
-        @media (max-width: 700px) {
-            .widgets-row { flex-direction: column; }
-            .news-title { font-size: 13px; }
-            .news-text { font-size: 9px; }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
+<body>
 
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
@@ -307,33 +34,51 @@
 </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/92521306" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
-  
-   
-<body>
+
+
     <div class="wrapper">
 
-       <div class="logo-container">
+        <div class="logo-container">
             <img src="logo.png" alt="mc.crimson-coalition.ru">
             <a href="history.html" class="donate-btn" style="background: linear-gradient(180deg, #6600cc, #440088); border-color: #9d00ff; box-shadow: 0 4px 0 #330066; margin-top: 10px;">
-      История сервера
-</a>
+            История сервера
+            </a>
 
-        
+            <a href="rules.html" class="donate-btn" style="background: linear-gradient(180deg, #6600cc, #440088); border-color: #9d00ff; box-shadow: 0 4px 0 #330066; margin-top: 10px;">
+            Правила сервера
+            </a>
+
+        </div>
 
         <div class="news-block">
             <div class="news-title">Новости сервера</div>
 
             <div class="news-item">
+                <div class="news-date">[29.08.2026]</div>
+                <div class="news-date">[Автор: commit]</div>
+                <div class="news-text">
+                Начиная с первого сентября и всю следующую неделю после на сервере будет идти бесконечный дождь и постоянная ночь.
+                </div>    
+                <div class="news-text">                         
+                Пропустить ее, "сделать день" и т.д. будет нельзя.
+                </div>
+                <div class="news-text">       
+                Удачи.
+                </div>
+            </div>
+
+
+            <div class="news-item">
                 <div class="news-date">[22.08.2026]</div>
                 <div class="news-date">[Автор: commit]</div>
                 <div class="news-text">
-                    Ура, мы пережили первый месяц работы, и теперь идет второй!
+                Ура, мы пережили первый месяц работы, и теперь идет второй!
                 </div>    
                 <div class="news-text">                         
-                    Теперь нам необходимо собрать 600 рублей до 19 сентября чтобы оплатить сервер.
+                Теперь нам необходимо собрать 600 рублей до 19 сентября чтобы оплатить сервер.
                 </div>
                 <div class="news-text">       
-                    Спасибо всем кто играет, помогает и голосует за сервер!
+                Спасибо всем кто играет, помогает и голосует за сервер!
                 </div>
             </div>
 
@@ -384,7 +129,6 @@
 
                     
                     <iframe src="https://yoomoney.ru/quickpay/fundraise/button?billNumber=1JQJDRGFVQ0.260822&" width="330" height="50" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
-                    
             </div>
             </div>
 
